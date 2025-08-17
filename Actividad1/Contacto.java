@@ -1,61 +1,59 @@
+/** * Autor: Melissa Yaretzi Hernández Flores
+ * * Fecha: 16/08/2025 
+ * * Descripción: La clase contacto sirve para guardar la informacion de los contactos, es decir lo que debe llevar 
+ * el contacto como nombre, direccion y telefono
+ * **/
 package Actividad1;
 
 public class Contacto {
 
-    public String nombre;
-    public int telefono;
-    public String direccion;
+    public String NOMBRE;
+    public int TELEFONO;
+    public String DIRECCION;
 
     public Contacto() {
-        this.nombre = "Default";
-        this.telefono = 1111111111;
-        this.direccion = "Default";
+        this.NOMBRE = "Default";
+        this.TELEFONO = 111111111;
+        this.DIRECCION = "Default";
     }
 
-    public Contacto(String nombre, int telefono, String direccion) {
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.direccion = direccion;
+    public Contacto(String NOMBRE, int TELEFONO, String DIRECCION) {
+        this.NOMBRE = NOMBRE;
+        this.TELEFONO = TELEFONO;
+        this.DIRECCION = DIRECCION;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombre(String NOMBRE) {
+        this.NOMBRE = NOMBRE;
     }
 
-    public void setTelefono(int telefono) {
-        this.telefono = telefono;
+    public void setTelefono(int TELEFONO) {
+        this.TELEFONO = TELEFONO;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setDireccion(String DIRECCION) {
+        this.DIRECCION = DIRECCION;
     }
 
     public String getNombre() {
-        return this.nombre;
+        return this.NOMBRE;
     }
 
     public int getTelefono() {
-        return this.telefono;
+        return this.TELEFONO;
     }
 
     public String getDireccion() {
-        return this.direccion;
+        return this.DIRECCION;
     }
 
     @Override
     public String toString() {
-        return "|" + "Nombre: " + nombre + "Telefono: " + telefono + "Dirección: " + direccion + "|";
+        return "|" + "Nombre: " + NOMBRE + ", Telefono: " + TELEFONO + ", Dirección: " + DIRECCION + "|";
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!(obj instanceof Contacto))
-            return false;
-        Contacto c = (Contacto) obj;
-        return this.nombre.equalsIgnoreCase(c.nombre) &&
-                this.telefono == (c.telefono);
+    public boolean equals(String NOMBRE) {
+        return this.NOMBRE.equalsIgnoreCase(NOMBRE);
     }
 
 }
