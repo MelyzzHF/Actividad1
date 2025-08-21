@@ -6,32 +6,32 @@
 
 package Actividad1;
 
-public class Node<E> {
-    public E DATA;
-    public Node<E> NEXT;
-    public Node<E> PREV;
+public class Node<T> {
+    public T data;
+    public Node<T> next;
+    public Node<T> prev;
 
     public Node() {
-        this.DATA = null;
-        this.NEXT = null;
-        this.PREV = null;
+        this.data = null;
+        this.next = null;
+        this.prev = null;
     }
 
-    public Node(E DATA) {
-        this.DATA = DATA;
-        this.NEXT = null;
-        this.PREV = null;
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
     }
 
-    public Node(E DATA, Node<E> NEXT, Node<E> PREV) {
-        this.DATA = DATA;
-        this.NEXT = NEXT;
-        this.PREV = PREV;
+    public Node(T data, Node<T> next, Node<T> prev) {
+        this.data = data;
+        this.next = next;
+        this.prev = prev;
     }
 
     @Override
     public String toString() {
-        return DATA.toString();
+        return data.toString();
     }
 
 }

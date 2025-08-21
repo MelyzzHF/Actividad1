@@ -11,248 +11,115 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LinkedList<T> {
-    public Node<T> HEAD;
+    public Node<T> head;
     public int LIST_TYPE;
 
     public LinkedList() {
-        this.HEAD = null;
+        this.head = null;
         this.LIST_TYPE = 1;
     }
 
     public LinkedList(int LIST_TYPE) {
-        this.HEAD = null;
+        this.head = null;
         this.LIST_TYPE = LIST_TYPE;
     }
-
-    public LinkedList(T contacto) {
-        this.HEAD = new Node<T>(contacto);
-    }
-
+    
     public void setListType(int LIST_TYPE)
     {
         this.LIST_TYPE = LIST_TYPE;
     }
 
-    public void simpleInsert(T DATA) {
-        Node<T> NEW_NODO = new Node<T>(DATA);
-        if ( HEAD == null) {
-            HEAD = NEW_NODO;
+    public void simpleInsert(T data) {
+        Node<T> newNodo = new Node<T>(data);
+        if ( head == null) {
+            head = newNodo;
         } else {
-            Node<T> ACTUAL_NODO = HEAD;
-            while (ACTUAL_NODO.NEXT != null)
-                ACTUAL_NODO = ACTUAL_NODO.NEXT;
-            ACTUAL_NODO.NEXT = NEW_NODO;
+            Node<T> actualNodo = head;
+            while (actualNodo.next != null)
+                actualNodo = actualNodo.next;
+            actualNodo.next = newNodo;
         }
     }
 
-    public void doubleInsert(T DATA) {
-        Node<T> NEW_NODO = new Node<T>(DATA);
-        if (HEAD == null) {
-            HEAD = NEW_NODO;
+    public void doubleInsert(T data) {
+        Node<T> newNodo = new Node<T>(data);
+        if (head == null) {
+            head = newNodo;
         } else {
-            Node<T> ACTUAL_NODO = HEAD;
-            while (ACTUAL_NODO.NEXT != null)
-                ACTUAL_NODO = ACTUAL_NODO.NEXT;
+            Node<T> actualNodo = head;
+            while (actualNodo.next != null)
+                actualNodo = actualNodo.next;
 
-            ACTUAL_NODO.NEXT = NEW_NODO;
-            NEW_NODO.PREV = ACTUAL_NODO;
+            actualNodo.next = newNodo;
+            newNodo.prev = actualNodo;
         }
     }
 
-    public void circleInsert(T DATA) {
-        Node<T> NEW_NODO = new Node<T>(DATA);
+    public void circleInsert(T data) {
+        Node<T> newNodo = new Node<T>(data);
 
-        if (HEAD == null) {
-            HEAD = NEW_NODO;
-            NEW_NODO.NEXT = NEW_NODO;
+        if (head == null) {
+            head = newNodo;
+            newNodo.next = newNodo;
         } else {
-            Node<T> ACTUAL_NODO = HEAD;
-            while (ACTUAL_NODO.NEXT != HEAD)
-                ACTUAL_NODO = ACTUAL_NODO.NEXT;
+            Node<T> actualNodo = head;
+            while (actualNodo.next != head)
+                actualNodo = actualNodo.next;
 
-            ACTUAL_NODO.NEXT = NEW_NODO;
-            NEW_NODO.NEXT = HEAD;
+            actualNodo.next = newNodo;
+            newNodo.next = head;
         }
     }
 
-    public void insert(T DATA) {
+    public void insert(T data) {
         switch (this.LIST_TYPE) {
             case 1:
-                this.simpleInsert(DATA);
+                this.simpleInsert(data);
                 break;
             case 2:
-                this.doubleInsert(DATA);
+                this.doubleInsert(data);
                 break;
             case 3:
-                this.circleInsert(DATA);
+                this.circleInsert(data);
                 break;
         }
     }
 
     public boolean isEmpty() {
-        return (this.HEAD == null);
+        return (this.head == null);
 
     }
 
-    public void Delete(String value, int tipoLista) throws Exception {
-        if (this.isEmpty()) {
-            throw new Exception("La lista está vacía");
-        }
 
-        Node<T> actual = HEAD;
-        Node<T> NEXT_HEAD = null;
-        Node<T> prevNode = null;
-        boolean eliminado = false;
-
-        Contacto contacto = null;
-
-        switch (tipoLista) {
-            case 1:
-
-                while (actual != null) {
-
-                    if (actual.DATA instanceof Contacto) {
-
-                        contacto = (Contacto) actual.DATA;
-
-                        if (contacto.equals(value)) {
-                            if (actual == HEAD) {
-                                HEAD = actual.NEXT;
-                            } else {
-                                prevNode.NEXT = actual.NEXT;
-                            }
-                            eliminado = true;
-                        }
-
-                        prevNode = actual;
-                        actual = actual.NEXT;
-
-                    }
-
-                }
-                break;
-
-            case 2:
-
-                while (actual != null) {
-
-                    if (actual.DATA instanceof Contacto) {
-
-                        contacto = (Contacto) actual.DATA;
-
-                        if (contacto.equals(value)) {
-
-                            if (prevNode != null) {
-                                prevNode.NEXT = actual.NEXT;
-                            } else {
-                                HEAD = actual.NEXT; // Es el HEAD
-                            }
-
-                            // Conectar el siguiente con el previo (solo si existe)
-                            if (actual.NEXT != null) {
-                                actual.NEXT.PREV = prevNode;
-                            }
-
-                            eliminado = true;
-                            break;
-                        }
-                    }
-
-                    prevNode = actual;
-                    actual = actual.NEXT;
-                }
-                break;
-
-            case 3: 
-                do {
-                    if (actual.DATA instanceof Contacto) {
-                        contacto = (Contacto) actual.DATA;
-                        if (contacto.equals(value)) {
-
-                            eliminado = true;
-
-                            if (actual == HEAD) {
-                                if (actual.NEXT == HEAD){
-                                    HEAD = null;
-                                    break;
-                                }
-                                else{
-                                   NEXT_HEAD = actual.NEXT;
-                                   while (actual.NEXT != HEAD)
-                                   {
-                                        actual = actual.NEXT;
-                                   }
-                                   actual.NEXT = NEXT_HEAD;
-                                   HEAD = NEXT_HEAD;
-                                }
-
-                            } else {
-                                prevNode.NEXT = actual.NEXT;
-                            }              
-                        }
-
-                        prevNode = actual; // prev = cabeza
-                        actual = actual.NEXT; // actual = melissa
-                    }
-
-                } while (actual != HEAD);
-
-                break;
-        }
-
-        if (!eliminado) {
-            throw new Exception("No se encontró un contacto con ese nombre.");
-        }
-    }
-
-    public Node<T> Find(String nombre) throws Exception {
-        Node<T> ACTUAL_NODO = HEAD;
-
-        if (ACTUAL_NODO != null) {
-        do {
-            if (ACTUAL_NODO.DATA instanceof Contacto) {
-                Contacto contacto = (Contacto) ACTUAL_NODO.DATA;
-                if (contacto.equals(nombre)) {
-                    return ACTUAL_NODO;
-                }
-            }
-            ACTUAL_NODO = ACTUAL_NODO.NEXT;
-        } while (ACTUAL_NODO != null && ACTUAL_NODO != HEAD);
-        }
-        else {
-            throw new Exception("No existen contactos en la lista. Favor de insertar contactos.");
-        }
-        return null;
-    }
 
     public void Show() throws Exception {
-        Node<T> ACTUAL_NODO = this.HEAD;
+        Node<T> actualNodo = this.head;
         List<String> simbolos = new ArrayList<>();
         simbolos.add(" --> ");
         simbolos.add(" <--> ");
         simbolos.add(" --> ");
         
-        if (ACTUAL_NODO != null) {
+        if (actualNodo != null) {
             do {
 
-                System.out.print(ACTUAL_NODO.DATA + " ");
+                System.out.print(actualNodo.data + " ");
 
-                if (ACTUAL_NODO.NEXT != null)
+                if (actualNodo.next != null)
                 {
                     System.out.print(simbolos.get(this.LIST_TYPE-1));
-                    if (ACTUAL_NODO.NEXT == HEAD)
+                    if (actualNodo.next == head)
                     {
-                       System.out.print("... (se repite) ..." + simbolos.get(this.LIST_TYPE-1) + HEAD.DATA + simbolos.get(this.LIST_TYPE-1) + "...");     
+                       System.out.print("... (se repite) ..." + simbolos.get(this.LIST_TYPE-1) + head.data + simbolos.get(this.LIST_TYPE-1) + "...");     
                     }
                 }
                 
-                ACTUAL_NODO = ACTUAL_NODO.NEXT;
+                actualNodo = actualNodo.next;
 
-            } while (ACTUAL_NODO != null && ACTUAL_NODO != HEAD);
+            } while (actualNodo != null && actualNodo != head);
 
         }
         else {
-            throw new Exception("No existen contactos en la lista. Favor de insertar contactos.");
+            throw new Exception("XXXXXXXXXXXXX");
         }
 
     }
