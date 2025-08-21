@@ -4,7 +4,7 @@
  *
  * **/
 
-package Actividad1;
+package Actividad1.scr;
 
 public class Node<T> {
     public T data;
