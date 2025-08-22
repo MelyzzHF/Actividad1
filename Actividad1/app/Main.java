@@ -117,7 +117,7 @@ public class Main {
 
             String tope = Procesos.peek();
             if (tope == null) {
-                System.out.println("La pila está vacía.");
+                System.out.println("La fila está vacía.");
                 break;
             }
 

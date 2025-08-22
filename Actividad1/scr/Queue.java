@@ -44,8 +44,8 @@ public class Queue<T> {
     public boolean isEmpty() {
         return lista.isEmpty();
     }
+ // metodo para imprimirr 
 
-    // Imprime sin flecha final (muestra mensaje si está vacía)
     public void mostrarFila() {
         if (lista.isEmpty()) {
             System.out.println("La fila está vacía");
