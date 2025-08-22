@@ -1,38 +1,40 @@
 /** * Autor: Melissa Yaretzi Hernández Flores
- * * Fecha: 16/08/2025 
- * * Descripción: La clase LinkedList sirve para hacer las listas simples, doble y circular, y en las listas poner el objeto Contacto
- * y tiene metodos que son para insertar, eliminar, encontrar y mostrar. 
+ * * Fecha: 21/08/2025 
+ * * Descripción: La clase LinkedList sirve para hacer las listas simples y saber si esta vacía
  * **/
-
 
 package Actividad1.scr;
 
 public class LinkedList<T> {
-    public Node<T> head;
-    public int LIST_TYPE;
+    private Node<T> head;
 
     public LinkedList() {
         this.head = null;
     }
-    
-    public void simpleInsert(T data) {
-        Node<T> newNodo = new Node<T>(data);
-        if ( head == null) {
-            head = newNodo;
+
+    public Node<T> getHead() {
+        return head;
+    }
+
+    public void setHead(Node<T> head) {
+        this.head = head;
+    }
+
+    public void simpleInsertFila(T data) {
+        Node<T> nuevo = new Node<>(data);
+        if (head == null) {
+            head = nuevo;
         } else {
-            Node<T> actualNodo = head;
-            while (actualNodo.next != null)
-                actualNodo = actualNodo.next;
-            actualNodo.next = newNodo;
+            Node<T> actual = head;
+            while (actual.getNext() != null) {
+                actual = actual.getNext();
+            }
+            actual.setNext(nuevo);
+            nuevo.setPrev(actual);
         }
     }
 
-
     public boolean isEmpty() {
-        return (this.head == null);
-
+        return head == null;
     }
-
-
-
 }

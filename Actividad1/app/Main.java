@@ -1,6 +1,8 @@
 /** * Autor: Melissa Yaretzi Hernández Flores
- * * Fecha: 16/08/2025 
+ * * Fecha: 21/08/2025 
  * * Descripción: Main, clase principal en la que se realizan los menús y sirve para poder interactuar con el Usuario 
+ * manda a llamar los metodos de los comandos y procesos
+ * Los comandos están en una pila mientras que los procesos en una fila
  * **/
 package Actividad1.app;
 
@@ -12,8 +14,8 @@ import Actividad1.scr.Stack;
 
 public class Main {
     public static BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
-    public static Stack<String> Comando = new Stack<>();
-    public static Queue<String> Proceso = new Queue<>();
+    public static Stack<String> Comandos = new Stack<>();
+    public static Queue<String> Procesos = new Queue<>();
 
     public static void main(String[] args) throws IOException {
         int opcion = -1;
@@ -49,23 +51,23 @@ public class Main {
                     case 4:
                         realizarProcesos();
                         break;
-                        
+
                     case 5:
-                        Comando.mostrarPila();
+                        Comandos.mostrarPila();
                         break;
                     case 6:
-                        Proceso.mostrarFila();
+                        Procesos.mostrarFila();
                         break;
                     case 0:
                         System.out.println("Saliendo...");
                         break;
                     default:
-                        System.out.println("Opción inválida.");
+                        System.out.println("Opción inválida.( Solo números entre el 0-6 )");
 
                 }
 
             } catch (NumberFormatException e) {
-                System.out.println("Inválido, ingresa un número: ");
+                System.out.println("Inválido, ingresa un número ");
             }
         } while (opcion != 0);
 
@@ -74,79 +76,107 @@ public class Main {
     public static void agregarComandos() throws IOException {
         boolean agregar = true;
         while (agregar) {
-            System.out.print("Comando a apilar: ");
-            String cmd = entrada.readLine();
-            Comando.push(cmd);
+            String cmd = leerComandoNoNumerico("Comando a apilar: ");
+            Comandos.push(cmd);
 
-            System.out.print("¿Quieres agregar otro comando? (si o no): ");
-            String resp = entrada.readLine().toLowerCase();
-            if (!resp.equals("si"))
-                agregar = false;
+            agregar = preguntarSioNo("¿Quieres agregar otro comando? (si o no): ");
         }
     }
+
 
     public static void agregarProcesos() throws IOException {
         boolean agregar = true;
         while (agregar) {
-            System.out.print("Programa a enfilar: ");
-            String prog = entrada.readLine();
-            Proceso.enqueue(prog);
+            String prog = leerComandoNoNumerico("Programa a enfilar: ");
+            Procesos.enqueue(prog);
+            agregar = preguntarSioNo("¿Quieres agregar otro programa? (si o no): ");
 
-            System.out.print("¿Quieres agregar otro programa? (si o no): ");
-            String resp = entrada.readLine().toLowerCase();
-            if (!resp.equals("si"))
-                agregar = false;
         }
     }
 
     public static void ejecutarComando() throws IOException {
         boolean continuar = true;
         while (continuar) {
-            try {
-                String tope = Comando.peek();
-                if (tope == null) {
-                    System.out.println("La pila está vacía.");
-                    break;
-                }
-                System.out.println("Último comando: " + Comando.peek());
-                Comando.pop();
-                System.out.print("Pila actual: ");
-                Comando.mostrarPila();
-            } catch (Exception e) {
+
+            String tope = Comandos.peek();
+            if (tope == null) {
                 System.out.println("La pila está vacía.");
                 break;
             }
-
-            System.out.print("¿Quieres ejecutar el siguiente comando? (si o no): ");
-            String resp = entrada.readLine().toLowerCase();
-            if (!resp.equals("si"))
-                continuar = false;
+            System.out.println("Último comando: " + Comandos.peek());
+            Comandos.pop();
+            System.out.print("Pila actual: ");
+            Comandos.mostrarPila();
+            continuar = preguntarSioNo("¿Quieres ejecutar el siguiente comando? (si o no): ");
         }
     }
 
     public static void realizarProcesos() throws IOException {
         boolean continuar = true;
         while (continuar) {
-            try {
-                String tope = Comando.peek();
-                if (tope == null) {
-                    System.out.println("La pila está vacía.");
-                    break;}
 
-                System.out.println("Primer proceso en la fila: " + Proceso.peek());
-                Proceso.dequeue();
-                System.out.print("Fila actual: ");
-                Proceso.mostrarFila();
-            } catch (Exception e) {
-                System.out.println("La fila está vacía.");
+            String tope = Procesos.peek();
+            if (tope == null) {
+                System.out.println("La pila está vacía.");
                 break;
             }
 
-            System.out.print("¿Quieres procesar el siguiente proceso? (si o no): ");
-            String resp = entrada.readLine().toLowerCase();
-            if (!resp.equals("si"))
-                continuar = false;
+            System.out.println("Primer proceso en la fila: " + Procesos.peek());
+            Procesos.dequeue();
+            System.out.print("Fila actual: ");
+            Procesos.mostrarFila();
+            continuar = preguntarSioNo("¿Quieres ejecutar el siguiente proceso? (si o no): ");
+
         }
     }
+
+    // Para no repetir lo mismo en los cuatro métodos anteriores, mejor creamos un
+    // método que nos sirva para lo mismo
+    private static boolean preguntarSioNo(String prompt) throws IOException {
+        while (true) {
+            System.out.print(prompt);
+            String respuesta = entrada.readLine();
+            if (respuesta == null)
+                continue;
+
+            respuesta = respuesta.trim().toLowerCase();
+
+            if (respuesta.equals("si") || respuesta.equals("sí"))
+                return true;
+            if (respuesta.equals("no"))
+                return false;
+
+            try {
+                Integer.parseInt(respuesta);
+                System.out.println("Por favor responda solo 'si' o 'no' (no números).");
+            } catch (NumberFormatException e) {
+                System.out.println("Respuesta inválida. Escriba 'si' o 'no'.");
+            }
+        }
+    }
+    // Para no repetir lo mismo en los dos primeros metodos anteriores, mejor creamos un
+    // método que nos sirva para lo mismo (nM significa no numeros para que no se me olvide)
+
+    private static String leerComandoNoNumerico(String prompt) throws IOException {
+    while (true) {
+        System.out.print(prompt);
+        String nM = entrada.readLine();
+        if (nM == null) continue;
+
+        nM = nM.trim();
+        if (nM.isEmpty()) {
+            System.out.println("El comando no puede estar vacío.");
+            continue;
+        }
+        try {
+            Double.parseDouble(nM);
+            System.out.println("El comando no puede ser un número. Escribe texto.");
+            continue;
+        } catch (NumberFormatException ok) {
+        }
+
+        return nM;
+    }
+}
 
 }
